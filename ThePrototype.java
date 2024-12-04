@@ -16,15 +16,10 @@ import java.sql.*;
 import javax.sql.rowset.*;
 
 public class ThePrototype {
-    static List<Recipe> appropriateList= new ArrayList<>();
-    public static List<Recipe> inappropriateList= null;
+    public static List<Recipe> ingredientList= null;
     static List<String> presentIngredients= new ArrayList<>();
     static List<String> neededIngredients= new ArrayList<>();
 
-    public static Recipe[] listOfRecipes= new Recipe[50];
-  //  listOfRecipes=;
-
-    public int missingIngredients=0;
 
     private CachedRowSet serviceOutcome = null;
     private static ResultSet outcome   = null;
@@ -46,9 +41,10 @@ public class ThePrototype {
 //        }
 
     }
-    public ThePrototype() throws SQLException, ClassNotFoundException {
+    public ThePrototype(List<String> fridge) throws SQLException, ClassNotFoundException {
        // presentIngredients=fridge;
-        inappropriateList=execute();
+        presentIngredients=fridge;
+        ingredientList=execute();
     }
 
     public static void setPresentIngredients(List<String> fridge ){
@@ -59,14 +55,14 @@ public class ThePrototype {
         return presentIngredients;
     }
 
-    public static List<Recipe> getInappropriateList() {
-        return inappropriateList;
+    public static List<Recipe> getIngredientList() {
+        return ingredientList;
     }
 
     public List<Recipe> execute() throws SQLException, ClassNotFoundException {
-        presentIngredients.add("Chicken");
-        presentIngredients.add("Egg");
-        presentIngredients.add("Tomatoes");
+//        presentIngredients.add("Chicken");
+//        presentIngredients.add("Egg");
+//        presentIngredients.add("Tomatoes");
         List<Recipe> recipeListList= new ArrayList<>();
 
 
@@ -99,8 +95,10 @@ public class ThePrototype {
 //                Recipe.setPrep_time(crs.getString(4));
 //                Recipe.setImage(crs.getString(5));
 //                Recipe.setDescription(crs.getString(6));
+
                 addIngredients(newRecipe);
                 recipeListList.add(newRecipe);
+                showInstructions(newRecipe);
            //     System.out.println(newRecipe.getName());
 
 
@@ -128,7 +126,7 @@ public class ThePrototype {
     public static void addIngredients(Recipe recipe) throws ClassNotFoundException, SQLException {
         //now for each recipe get all ingredients
      //   System.out.println(recipe.getName());
-        String sql = "SELECT public.ingredient.name FROM public.ingredient FULL JOIN public.link_recipe_ingredient ON public.ingredient.ingredient_id= public.link_recipe_ingredient.ingredient_id WHERE public.link_recipe_ingredient.recipe_id= "+recipe.getId();
+        String sql = "SELECT public.ingredient.name,public.ingredient.quantity,public.ingredient.unit FROM public.ingredient FULL JOIN public.link_recipe_ingredient ON public.ingredient.ingredient_id= public.link_recipe_ingredient.ingredient_id WHERE public.link_recipe_ingredient.recipe_id= "+recipe.getId();
 
         Class.forName("org.postgresql.Driver");
 
@@ -153,6 +151,7 @@ public class ThePrototype {
         while (crs.next()){
           //  System.out.println(crs.getString(1));
             recipe.addIngredient(crs.getString(1));
+            recipe.addDetailIngredient(crs.getString(2), crs.getString(3),crs.getString(1) );
 
             // System.out.println(crs.getString("title")+"|"+crs.getString("label")+"|"+crs.getString("genre")+"|"+(crs.getString("rrp")+"|"+crs.getString(5)));
         }
@@ -175,9 +174,9 @@ public class ThePrototype {
         recipe.setWeight(points);
     }
 
-    public void moreDetails (Recipe recipe) throws ClassNotFoundException, SQLException {
-        String sql ="SELECT link_recipe_ingredient.amount,unit.unit_name FROM link_recipe_ingredient FULL JOIN unit ON link_recipe_ingredient.unit_id=unit.unit_id WHERE recipe_id="+ recipe.getId()+"GROUP BY amount,Unit";
-        String sql1= "SELECT public.instructions.instruction FROM public.instructions WHERE public.instructions.recipe_id="+ recipe.getId();
+    public void showInstructions (Recipe recipe) throws ClassNotFoundException, SQLException {
+      //  String sql ="SELECT link_recipe_ingredient.amount,unit.unit_name FROM link_recipe_ingredient FULL JOIN unit ON link_recipe_ingredient.unit_id=unit.unit_id WHERE recipe_id="+ recipe.getId()+"GROUP BY amount,Unit";
+        String sql= "SELECT public.instructions.instruction FROM public.instructions WHERE public.instructions.recipe_id="+ recipe.getId();
         Class.forName("org.postgresql.Driver");
 
         String dbURL = "jdbc:postgresql://localhost:5432/postgres" ;
@@ -199,29 +198,16 @@ public class ThePrototype {
         stmt.close();
         con.close();
         int i=0;
+
         while (crs.next()){
-            recipe.addDetailIngredient(crs.getString("amount"),crs.getString("unit"),recipe.getIngredients().get(i));
-        }
-        PreparedStatement stmt1 = con.prepareStatement(sql1);
-        ResultSet rs1 = stmt1.executeQuery();
-
-        RowSetFactory aFactory1= RowSetProvider.newFactory();
-        CachedRowSet crs1 = aFactory1.createCachedRowSet();
-        crs1.populate(rs1);
-        outcome=crs1;
-
-        rs.close();
-        stmt.close();
-        con.close();
-        while (crs1.next()){
-            recipe.addStep(crs1.getString("step"));
+            recipe.addStep(crs.getString(1));
         }
     }
 
     static class RecipeComparator implements java.util.Comparator<Recipe> {
         @Override
         public int compare(Recipe a, Recipe b) {
-            return a.getWeight() - b.getWeight();
+            return b.getWeight() - a.getWeight();
         }
     }
 
