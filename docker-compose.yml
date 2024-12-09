@@ -1,0 +1,25 @@
+version: '3.8'  # Docker Compose version
+
+services:
+  javafx-app:
+    build:
+      context: .  # Location of the Dockerfile
+    container_name: javafx-app-container
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/postgres
+      - DATABASE_USER=divya
+      - DATABASE_PASSWORD=password
+    ports:
+      - "8080:8080"  # Map host port 8080 to container port 8080 (if your app has a web interface)
+
+  postgres:
+    image: postgres:15  # Use PostgreSQL version 15
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"  # Map host port 5432 to container port 5432
