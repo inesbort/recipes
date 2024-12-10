@@ -1,0 +1,159 @@
+package com.example.ssh_app;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+public class SSHApp extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        //main
+        BorderPane mainPage = new BorderPane();
+        Label mainTitle = new Label("SSH App");
+        mainTitle.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
+        mainPage.setCenter(mainTitle);
+
+        Button recipesButton = new Button("Recipes");
+        recipesButton.setStyle("-fx-font-size: 14px;");
+        BorderPane.setAlignment(recipesButton, Pos.TOP_RIGHT);
+        BorderPane.setMargin(recipesButton, new Insets(10));
+        mainPage.setTop(recipesButton);
+
+        Scene mainScene = new Scene(mainPage, 600, 400);
+
+        BorderPane recipesPage = new BorderPane();
+        //main page of ssh recipes
+        VBox centerBox = new VBox(15);
+        centerBox.setAlignment(Pos.CENTER);
+        Button getPersonalisedRecipesButton = new Button("Get Personalised Recipes");
+        CheckBox showAllRecipesCheckBox = new CheckBox("Show me recipes I don't have all the ingredients for");
+        centerBox.getChildren().addAll(getPersonalisedRecipesButton, showAllRecipesCheckBox);
+        recipesPage.setCenter(centerBox);
+
+        Scene recipesScene = new Scene(recipesPage, 600, 400);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPannable(true);
+
+
+        VBox recipeListContainer = new VBox(10);
+        recipeListContainer.setPadding(new Insets(10));
+        recipeListContainer.setStyle("-fx-background-color: #f9f9f9;");
+        recipeListContainer.prefWidthProperty().bind(scrollPane.widthProperty());
+        scrollPane.setContent(recipeListContainer);
+
+        BorderPane recipeListPage = new BorderPane(scrollPane);
+
+        Button backToRecipesPage = new Button("Back");
+        backToRecipesPage.setStyle("-fx-font-size: 14px;");
+        BorderPane.setMargin(backToRecipesPage, new Insets(10));
+        recipeListPage.setBottom(backToRecipesPage);
+
+        Scene recipeListScene = new Scene(recipeListPage, 600, 400);
+
+        //recipe info page
+        BorderPane recipeDetailPage = new BorderPane();
+
+        Label recipeNameLabel = new Label();
+        recipeNameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        recipeDetailPage.setTop(recipeNameLabel);
+        BorderPane.setAlignment(recipeNameLabel, Pos.CENTER);
+
+        VBox recipeDetails = new VBox(15);
+        recipeDetails.setPadding(new Insets(20));
+        recipeDetails.setAlignment(Pos.TOP_LEFT);
+
+        TextArea ingredientsArea = new TextArea();
+        ingredientsArea.setEditable(false);
+        ingredientsArea.setWrapText(true);
+        ingredientsArea.setPromptText("Ingredients");
+
+        TextArea methodArea = new TextArea();
+        methodArea.setEditable(false);
+        methodArea.setWrapText(true);
+        methodArea.setPromptText("Method");
+
+        recipeDetails.getChildren().addAll(ingredientsArea, methodArea);
+        recipeDetailPage.setCenter(recipeDetails);
+
+        Button backToListPage = new Button("Back to Recipe List");
+        BorderPane.setAlignment(backToListPage, Pos.BOTTOM_LEFT);
+        recipeDetailPage.setBottom(backToListPage);
+
+        Scene recipeDetailScene = new Scene(recipeDetailPage, 600, 400);
+
+        // Event Handlers
+        recipesButton.setOnAction(e -> primaryStage.setScene(recipesScene));
+
+        getPersonalisedRecipesButton.setOnAction(e -> {
+            recipeListContainer.getChildren().clear();
+
+            // Example Recipe 1
+            String recipe1Name = "Spicy Chicken Kebabs";
+            String recipe1Description = "Delicious spicy chicken skewers with vegetables.";
+            Image recipe1Image = new Image("https://via.placeholder.com/150");
+            String recipe1Ingredients = "Ingredients:\n3 garlic cloves\nKnob of fresh ginger\n1 orange\n3 spring onions\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil\n4 small skinless boneless chicken breast fillets\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers";
+            String recipe1Method = "Method:\nStep 1: Grind garlic, ginger, orange zest, and spring onions to a paste in a food processor. Add the honey, orange juice, soy sauce and oil, then blend again. Pour the mixture over the cubed chicken and leave to marinate for at least 1 hr, but preferably overnight. Toss in the mushrooms for the last half an hour so they take on some of the flavour, too.\nStep 2:Thread the chicken, tomatoes, mushrooms and peppers onto 20 wooden skewers, then cook on a griddle pan for 7-8 mins each side or until the chicken is thoroughly cooked and golden brown. Turn the kebabs frequently and baste with the marinade from time to time until evenly cooked. Arrange on a platter, scatter with chopped spring onion and eat with your fingers.\n" +
+                    "\n";
+
+            VBox recipe1Box = createRecipeBox(recipe1Name, recipe1Description, recipe1Image, recipe1Ingredients, recipe1Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
+            recipeListContainer.getChildren().add(recipe1Box);
+
+            String recipe2Name = "Creamy Pesto & Kale Pasta";
+            String recipe2Description = "A wholesome and creamy pasta dish with kale and pesto.";
+            Image recipe2Image = new Image("https://via.placeholder.com/150");
+            String recipe2Ingredients = "Ingredients:\n1 tbsp rapeseed oil\n2 red onions\n300g kale\n300g wholemeal pasta\n4 tbsp reduced-fat soft cheese\n 4 tbsp fresh or jar pesto";
+            String recipe2Method = "Method:\nStep 1: Heat oil in a large pan over medium heat. Fry the onions for 10 mins until softened and beginning to caramelise. Add the kale and 100ml water, then cover and cook for 5 mins more, or until the kale has wilted.\nStep2: Cook the pasta following pack instructions. Drain, reserving a little of the cooking water. Toss the pasta with the onion mixture, soft cheese and pesto, adding a splash of the reserved cooking water to loosen, if needed. Season.\n" +
+                    "\n";
+
+            VBox recipe2Box = createRecipeBox(recipe2Name, recipe2Description, recipe2Image, recipe2Ingredients, recipe2Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
+            recipeListContainer.getChildren().add(recipe2Box);
+
+            primaryStage.setScene(recipeListScene);
+        });
+        backToRecipesPage.setOnAction(e -> primaryStage.setScene(recipesScene));
+        backToListPage.setOnAction(e -> primaryStage.setScene(recipeListScene));
+        //backToRecipesPage.setOnAction(e)
+        primaryStage.setScene(mainScene);
+        primaryStage.setTitle("SSH App");
+        primaryStage.show();
+    }
+//for teh recipes on teh third page
+    private VBox createRecipeBox(String name, String description, Image image, String ingredients, String method, Label recipeNameLabel, TextArea ingredientsArea, TextArea methodArea, Stage primaryStage, Scene recipeDetailScene) {
+        VBox recipeBox = new VBox(10);
+        recipeBox.setPadding(new Insets(10));
+        recipeBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5px; -fx-padding: 10px;");
+
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(100);
+        imageView.setFitHeight(100);
+
+        Label nameLabel = new Label(name);
+        nameLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+        Label descriptionLabel = new Label(description);
+        descriptionLabel.setStyle("-fx-font-size: 14px;");
+
+        recipeBox.getChildren().addAll(imageView, nameLabel, descriptionLabel);
+        recipeBox.setOnMouseClicked(e -> {
+            recipeNameLabel.setText(name);
+            ingredientsArea.setText(ingredients);
+            methodArea.setText(method);
+            primaryStage.setScene(recipeDetailScene);
+        });
+
+        return recipeBox;
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
