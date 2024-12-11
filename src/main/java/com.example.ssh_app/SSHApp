@@ -1,4 +1,6 @@
-package com.example.ssh_app;
+//package com.example.ssh_app;
+
+//package com.example.ssh_app;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,6 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSHApp extends Application {
 
@@ -33,8 +41,8 @@ public class SSHApp extends Application {
         VBox centerBox = new VBox(15);
         centerBox.setAlignment(Pos.CENTER);
         Button getPersonalisedRecipesButton = new Button("Get Personalised Recipes");
-        CheckBox showAllRecipesCheckBox = new CheckBox("Show me recipes I don't have all the ingredients for");
-        centerBox.getChildren().addAll(getPersonalisedRecipesButton, showAllRecipesCheckBox);
+    //    CheckBox showAllRecipesCheckBox = new CheckBox("Show me recipes I don't have all the ingredients for");
+        centerBox.getChildren().addAll(getPersonalisedRecipesButton);
         recipesPage.setCenter(centerBox);
 
         Scene recipesScene = new Scene(recipesPage, 600, 400);
@@ -96,28 +104,100 @@ public class SSHApp extends Application {
         getPersonalisedRecipesButton.setOnAction(e -> {
             recipeListContainer.getChildren().clear();
 
+
             // Example Recipe 1
-            String recipe1Name = "Spicy Chicken Kebabs";
-            String recipe1Description = "Delicious spicy chicken skewers with vegetables.";
-            Image recipe1Image = new Image("https://via.placeholder.com/150");
-            String recipe1Ingredients = "Ingredients:\n3 garlic cloves\nKnob of fresh ginger\n1 orange\n3 spring onions\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil\n4 small skinless boneless chicken breast fillets\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers";
-            String recipe1Method = "Method:\nStep 1: Grind garlic, ginger, orange zest, and spring onions to a paste in a food processor. Add the honey, orange juice, soy sauce and oil, then blend again. Pour the mixture over the cubed chicken and leave to marinate for at least 1 hr, but preferably overnight. Toss in the mushrooms for the last half an hour so they take on some of the flavour, too.\nStep 2:Thread the chicken, tomatoes, mushrooms and peppers onto 20 wooden skewers, then cook on a griddle pan for 7-8 mins each side or until the chicken is thoroughly cooked and golden brown. Turn the kebabs frequently and baste with the marinade from time to time until evenly cooked. Arrange on a platter, scatter with chopped spring onion and eat with your fingers.\n" +
-                    "\n";
+//            String recipe1Name = "Spicy Chicken Kebabs";
+//            String recipe1Description = "Delicious spicy chicken skewers with vegetables.";
+           ;
+//            String recipe1Ingredients = "Ingredients:\n3 garlic cloves\nKnob of fresh ginger\n1 orange\n3 spring onions\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil\n4 small skinless boneless chicken breast fillets\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers";
+//            String recipe1Method = "Method:\nStep 1: Grind garlic, ginger, orange zest, and spring onions to a paste in a food processor. Add the honey, orange juice, soy sauce and oil, then blend again. Pour the mixture over the cubed chicken and leave to marinate for at least 1 hr, but preferably overnight. Toss in the mushrooms for the last half an hour so they take on some of the flavour, too.\nStep 2:Thread the chicken, tomatoes, mushrooms and peppers onto 20 wooden skewers, then cook on a griddle pan for 7-8 mins each side or until the chicken is thoroughly cooked and golden brown. Turn the kebabs frequently and baste with the marinade from time to time until evenly cooked. Arrange on a platter, scatter with chopped spring onion and eat with your fingers.\n" +
+//                    "\n";
+//
+//            VBox recipe1Box = createRecipeBox(recipe1Name, recipe1Description, recipe1Image, recipe1Ingredients, recipe1Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
+//            recipeListContainer.getChildren().add(recipe1Box);
 
-            VBox recipe1Box = createRecipeBox(recipe1Name, recipe1Description, recipe1Image, recipe1Ingredients, recipe1Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
-            recipeListContainer.getChildren().add(recipe1Box);
-
-            String recipe2Name = "Creamy Pesto & Kale Pasta";
-            String recipe2Description = "A wholesome and creamy pasta dish with kale and pesto.";
-            Image recipe2Image = new Image("https://via.placeholder.com/150");
-            String recipe2Ingredients = "Ingredients:\n1 tbsp rapeseed oil\n2 red onions\n300g kale\n300g wholemeal pasta\n4 tbsp reduced-fat soft cheese\n 4 tbsp fresh or jar pesto";
-            String recipe2Method = "Method:\nStep 1: Heat oil in a large pan over medium heat. Fry the onions for 10 mins until softened and beginning to caramelise. Add the kale and 100ml water, then cover and cook for 5 mins more, or until the kale has wilted.\nStep2: Cook the pasta following pack instructions. Drain, reserving a little of the cooking water. Toss the pasta with the onion mixture, soft cheese and pesto, adding a splash of the reserved cooking water to loosen, if needed. Season.\n" +
-                    "\n";
-
-            VBox recipe2Box = createRecipeBox(recipe2Name, recipe2Description, recipe2Image, recipe2Ingredients, recipe2Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
-            recipeListContainer.getChildren().add(recipe2Box);
-
+//            String recipe2Name = "Creamy Pesto & Kale Pasta";
+//            String recipe2Description = "A wholesome and creamy pasta dish with kale and pesto.";
+//            Image recipe2Image = new Image("https://via.placeholder.com/150");
+//            String recipe2Ingredients = "Ingredients:\n1 tbsp rapeseed oil\n2 red onions\n300g kale\n300g wholemeal pasta\n4 tbsp reduced-fat soft cheese\n 4 tbsp fresh or jar pesto";
+//            String recipe2Method = "Method:\nStep 1: Heat oil in a large pan over medium heat. Fry the onions for 10 mins until softened and beginning to caramelise. Add the kale and 100ml water, then cover and cook for 5 mins more, or until the kale has wilted.\nStep2: Cook the pasta following pack instructions. Drain, reserving a little of the cooking water. Toss the pasta with the onion mixture, soft cheese and pesto, adding a splash of the reserved cooking water to loosen, if needed. Season.\n" +
+//                    "\n";
+//
+//            VBox recipe2Box = createRecipeBox(recipe2Name, recipe2Description, recipe2Image, recipe2Ingredients, recipe2Method, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
+//            recipeListContainer.getChildren().add(recipe2Box);
             primaryStage.setScene(recipeListScene);
+
+
+
+            String ingredientsString= "";
+            String methodString="";
+            int stepCount=1;
+            List<Recipe> rec= new ArrayList<>();
+//            Recipe test= new Recipe();
+//            Recipe.setName("Quesadilla");
+//            test.addIngredient("Cheese");
+//            test.addIngredient("Tortilla");
+//            Recipe.setDescription("Melted cheese between two wheat tortillas");
+//            Recipe.addDetailIngredient("50 ","g ","cheese");
+//            Recipe.addDetailIngredient("2 ","unit ","tortillas");
+//            Recipe.addStep("Thinly cut or grate the cheese");
+//            Recipe.addStep("Place between tortillas");
+//            Recipe.addStep("Add oil to the pan and cook on both sides until cheese is melted");
+//
+//            rec.add(test);
+            ThePrototype myPrototype= null;
+            try {
+                //hard coded for testing
+                List<String> neededIngredients= List.of(new String[]{"Chicken"});
+                myPrototype = new ThePrototype(neededIngredients);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+
+            for (Recipe show: myPrototype.getIngredientList()){
+                //for each recipe in the list creates the box and adds it to the vbox
+                String filePath = show.getName().replaceAll("\\s", "");
+                Image recipe1Image = new Image("https://via.placeholder.com/150");
+                Image image = null;
+                try {
+                    image = new Image(new FileInputStream("./Pictures/"+filePath+".jpg"));
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                //Setting the image view
+                ImageView imageView = new ImageView(image);
+
+                //Setting the position of the image
+                imageView.setX(50);
+                imageView.setY(25);
+
+                //setting the fit height and width of the image view
+                imageView.setFitHeight(455);
+                imageView.setFitWidth(500);
+
+                //Setting the preserve ratio of the image view
+                imageView.setPreserveRatio(true);
+
+                stepCount=1;
+                ingredientsString= "Ingredients:\n";
+                methodString="Method:\n";
+                for (String[] i: show.getIngredientWithAmount()){
+                    ingredientsString=ingredientsString+i[0]+" "+i[1]+" "+i[2]+"\n";
+                }
+                for (String s: show.getSteps()){
+                    methodString=methodString+"Step "+stepCount+ ":"+s+"\n";
+                    stepCount++;
+                }
+                System.out.println(show.getName()+show.getDescription()+ingredientsString+methodString);
+                VBox recipe = createRecipeBox(show.getName(), show.getDescription(), image, ingredientsString, methodString, recipeNameLabel, ingredientsArea, methodArea, primaryStage, recipeDetailScene);
+                recipeListContainer.getChildren().add(recipe);
+            }
+
+
         });
         backToRecipesPage.setOnAction(e -> primaryStage.setScene(recipesScene));
         backToListPage.setOnAction(e -> primaryStage.setScene(recipeListScene));
@@ -126,7 +206,7 @@ public class SSHApp extends Application {
         primaryStage.setTitle("SSH App");
         primaryStage.show();
     }
-//for teh recipes on teh third page
+    //for teh recipes on teh third page
     private VBox createRecipeBox(String name, String description, Image image, String ingredients, String method, Label recipeNameLabel, TextArea ingredientsArea, TextArea methodArea, Stage primaryStage, Scene recipeDetailScene) {
         VBox recipeBox = new VBox(10);
         recipeBox.setPadding(new Insets(10));
