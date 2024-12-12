@@ -1,4 +1,4 @@
-//package com.example.ssh_app;
+//package com.example.ssh_app;//package com.example.ssh_app;
 
 //package com.example.ssh_app;
 
@@ -24,11 +24,17 @@ public class SSHApp extends Application {
     public void start(Stage primaryStage) {
         //main
         BorderPane mainPage = new BorderPane();
+        mainPage.setStyle("-fx-background-color: #f74f11;"); // Dark green background
+
         Label mainTitle = new Label("SSH App");
+        mainTitle.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;");
+
         mainTitle.setStyle("-fx-font-size: 36px; -fx-font-weight: bold;");
         mainPage.setCenter(mainTitle);
 
         Button recipesButton = new Button("Recipes");
+        recipesButton.setStyle("-fx-background-color: #b10623; -fx-font-size: 14px; -fx-text-fill: white;");
+
         recipesButton.setStyle("-fx-font-size: 14px;");
         BorderPane.setAlignment(recipesButton, Pos.TOP_RIGHT);
         BorderPane.setMargin(recipesButton, new Insets(10));
@@ -37,11 +43,14 @@ public class SSHApp extends Application {
         Scene mainScene = new Scene(mainPage, 600, 400);
 
         BorderPane recipesPage = new BorderPane();
+        recipesPage.setStyle("-fx-background-color: #f74f11;");
+
         //main page of ssh recipes
         VBox centerBox = new VBox(15);
         centerBox.setAlignment(Pos.CENTER);
         Button getPersonalisedRecipesButton = new Button("Get Personalised Recipes");
-    //    CheckBox showAllRecipesCheckBox = new CheckBox("Show me recipes I don't have all the ingredients for");
+        //    CheckBox showAllRecipesCheckBox = new CheckBox("Show me recipes I don't have all the ingredients for");
+        getPersonalisedRecipesButton.setStyle("-fx-background-color: #b10623; -fx-font-size: 14px; -fx-text-fill: white;");
         centerBox.getChildren().addAll(getPersonalisedRecipesButton);
         recipesPage.setCenter(centerBox);
 
@@ -54,14 +63,17 @@ public class SSHApp extends Application {
 
         VBox recipeListContainer = new VBox(10);
         recipeListContainer.setPadding(new Insets(10));
-        recipeListContainer.setStyle("-fx-background-color: #f9f9f9;");
+        recipeListContainer.setStyle("-fx-background-color: #b10623;");
         recipeListContainer.prefWidthProperty().bind(scrollPane.widthProperty());
         scrollPane.setContent(recipeListContainer);
 
         BorderPane recipeListPage = new BorderPane(scrollPane);
 
         Button backToRecipesPage = new Button("Back");
-        backToRecipesPage.setStyle("-fx-font-size: 14px;");
+        recipeListPage.setStyle("-fx-background-color: #f74f11;");
+        backToRecipesPage.setStyle("-fx-background-color: #b10623; -fx-font-size: 14px; -fx-text-fill: white;");
+
+        //backToRecipesPage.setStyle("-fx-font-size: 14px;");
         BorderPane.setMargin(backToRecipesPage, new Insets(10));
         recipeListPage.setBottom(backToRecipesPage);
 
@@ -71,8 +83,12 @@ public class SSHApp extends Application {
         BorderPane recipeDetailPage = new BorderPane();
 
         Label recipeNameLabel = new Label();
-        recipeNameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        recipeNameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        //recipeNameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         recipeDetailPage.setTop(recipeNameLabel);
+        recipeDetailPage.setStyle("-fx-background-color: #007700;");
+
         BorderPane.setAlignment(recipeNameLabel, Pos.CENTER);
 
         VBox recipeDetails = new VBox(15);
@@ -93,6 +109,8 @@ public class SSHApp extends Application {
         recipeDetailPage.setCenter(recipeDetails);
 
         Button backToListPage = new Button("Back to Recipe List");
+        backToListPage.setStyle("-fx-background-color: #b10623; -fx-font-size: 14px; -fx-text-fill: white;"); 
+
         BorderPane.setAlignment(backToListPage, Pos.BOTTOM_LEFT);
         recipeDetailPage.setBottom(backToListPage);
 
@@ -108,7 +126,7 @@ public class SSHApp extends Application {
             // Example Recipe 1
 //            String recipe1Name = "Spicy Chicken Kebabs";
 //            String recipe1Description = "Delicious spicy chicken skewers with vegetables.";
-           ;
+            ;
 //            String recipe1Ingredients = "Ingredients:\n3 garlic cloves\nKnob of fresh ginger\n1 orange\n3 spring onions\n2 tbsp clear honey\n1 tbsp light soy sauce\n2 tbsp vegetable oil\n4 small skinless boneless chicken breast fillets\n20 button mushrooms\n20 cherry tomatoes\n2 large red peppers";
 //            String recipe1Method = "Method:\nStep 1: Grind garlic, ginger, orange zest, and spring onions to a paste in a food processor. Add the honey, orange juice, soy sauce and oil, then blend again. Pour the mixture over the cubed chicken and leave to marinate for at least 1 hr, but preferably overnight. Toss in the mushrooms for the last half an hour so they take on some of the flavour, too.\nStep 2:Thread the chicken, tomatoes, mushrooms and peppers onto 20 wooden skewers, then cook on a griddle pan for 7-8 mins each side or until the chicken is thoroughly cooked and golden brown. Turn the kebabs frequently and baste with the marinade from time to time until evenly cooked. Arrange on a platter, scatter with chopped spring onion and eat with your fingers.\n" +
 //                    "\n";
@@ -210,7 +228,7 @@ public class SSHApp extends Application {
     private VBox createRecipeBox(String name, String description, Image image, String ingredients, String method, Label recipeNameLabel, TextArea ingredientsArea, TextArea methodArea, Stage primaryStage, Scene recipeDetailScene) {
         VBox recipeBox = new VBox(10);
         recipeBox.setPadding(new Insets(10));
-        recipeBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 5px; -fx-padding: 10px;");
+        recipeBox.setStyle("-fx-background-color: #b10623; -fx-border-color: #b10623; -fx-border-radius: 5px; -fx-padding: 10px;");
 
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(100);
